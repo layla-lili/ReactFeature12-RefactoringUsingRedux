@@ -12,6 +12,7 @@ import { ThemeProvider } from "styled-components";
 // Data
 import productsData from "./products";
 
+
 const theme = {
   light: {
     mainColor: "#242424", // main font color
@@ -29,19 +30,15 @@ const theme = {
 
 function App() {
   const [currentTheme, setCurrentTheme] = useState("light");
-  const [products, setProducts] = useState(productsData);
+  // const [products, setProducts] = useState(productsData);
 
-  const deleteProduct = (productId) => {
-    const updatedProducts = products.filter(
-      (product) => product.id !== productId
-    );
-    setProducts(updatedProducts);
-  };
-
+ 
   const toggleTheme = () =>
     setCurrentTheme(currentTheme === "light" ? "dark" : "light");
 
   return (
+   
+
     <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
@@ -50,13 +47,16 @@ function App() {
           <Home />
         </Route>
         <Route path="/products/:productSlug">
-          <ProductDetail products={products} deleteProduct={deleteProduct} />
+          {/* <ProductDetail products={products} deleteProduct={deleteProduct} /> */}
+          <ProductDetail  />
         </Route>
         <Route path="/products">
-          <ProductList products={products} deleteProduct={deleteProduct} />
+          {/* <ProductList products={products} deleteProduct={deleteProduct} /> */}
+          <ProductList  />
         </Route>
       </Switch>
     </ThemeProvider>
+  
   );
 }
 

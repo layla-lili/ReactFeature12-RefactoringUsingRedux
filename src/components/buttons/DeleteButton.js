@@ -1,9 +1,15 @@
 // Styling
 import { DeleteButtonStyled } from "../../styles";
+import { deleteProduct } from "../../store/action";
+import { useDispatch } from "react-redux";
+const DeleteButton = (props) => {
+  const dispatch = useDispatch();
 
-const DeleteButton = ({ deleteProduct, productId }) => {
   return (
-    <DeleteButtonStyled onClick={() => deleteProduct(productId)}>
+    <DeleteButtonStyled
+      className="btn btn-outline-danger"
+      onClick={() => dispatch(deleteProduct(props.productId))}
+    >
       Delete
     </DeleteButtonStyled>
   );
