@@ -11,6 +11,7 @@ import ProductList from "./components/ProductList";
 import { ThemeProvider } from "styled-components";
 // Data
 import productsData from "./products";
+import ProductForm from "./components/ProductForm";
 
 
 const theme = {
@@ -43,6 +44,7 @@ function App() {
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
       <Switch>
+        <ProductForm path="/products/new"></ProductForm>
         <Route exact path="/">
           <Home />
         </Route>

@@ -99,3 +99,10 @@ export const ThemeButton = styled.button`
 export const Title = styled.h1`
   text-align: center;
 `;
+
+export const FormGroup = styled.div`
+  color: palevioletred;
+  display: block;
+  width: 500px;
+  margin: 20px auto;
+`;
