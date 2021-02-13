@@ -10,9 +10,8 @@ import ProductDetail from "./components/ProductDetail";
 import ProductList from "./components/ProductList";
 import { ThemeProvider } from "styled-components";
 // Data
-import productsData from "./products";
-import ProductForm from "./components/ProductForm";
 
+import ProductForm from "./components/ProductForm";
 
 const theme = {
   light: {
@@ -33,32 +32,31 @@ function App() {
   const [currentTheme, setCurrentTheme] = useState("light");
   // const [products, setProducts] = useState(productsData);
 
- 
   const toggleTheme = () =>
     setCurrentTheme(currentTheme === "light" ? "dark" : "light");
 
   return (
-   
-
     <ThemeProvider theme={theme[currentTheme]}>
       <GlobalStyle />
       <NavBar currentTheme={currentTheme} toggleTheme={toggleTheme} />
       <Switch>
-        <ProductForm path="/products/new"></ProductForm>
+        <Route path={["/products/new", "/products/:productSlug/edit"]}>
+          <ProductForm />
+        </Route>
+
+        <Route path="/products/:productSlug">
+          <ProductDetail />
+        </Route>
+
+        <Route path="/products">
+          <ProductList />
+        </Route>
+
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/products/:productSlug">
-          {/* <ProductDetail products={products} deleteProduct={deleteProduct} /> */}
-          <ProductDetail  />
-        </Route>
-        <Route path="/products">
-          {/* <ProductList products={products} deleteProduct={deleteProduct} /> */}
-          <ProductList  />
-        </Route>
       </Switch>
     </ThemeProvider>
-  
   );
 }
 

@@ -1,6 +1,7 @@
-import productsData from "../products.js";
-import { DELETE_PRODUCT, ADD_PRODUCT } from "./action";
-import { slugify } from "slugify";
+import { ADD_PRODUCT, DELETE_PRODUCT, UPDATE_PRODUCT } from "./action";
+
+import productsData from "../products";
+import slugify from "slugify";
 
 const initialState = {
   products: productsData,
@@ -9,24 +10,28 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_PRODUCT:
-      const slug = slugify(action.payload.newProduct.name, { lower: true });
-      action.payload.newProduct.slug = slug;
-      action.payload.newProduct.id =
-        state.products[state.products.length - 1].id + 1;
+      const { newProduct } = action.payload;
+      newProduct.slug = slugify(newProduct.name, { lower: true });
+      newProduct.id = state.products[state.products.length - 1].id + 1;
       return {
         ...state,
-        products: [...state.products, action.payload.newProduct],
+        products: [...state.products, newProduct],
       };
-
     case DELETE_PRODUCT:
-      const productToKeep = state.products.filter(
-        (product) => product.id !== action.payload.productId
-      );
       return {
         ...state,
-        products: productToKeep, //copy all of the old state, and only manipulate the part we want to manipulate.
+        products: state.products.filter(
+          (product) => product.id !== action.payload.productId
+        ),
       };
-
+    case UPDATE_PRODUCT:
+      const { updatedProduct } = action.payload;
+      return {
+        ...state,
+        products: state.products.map((product) =>
+          product.id === updatedProduct.id ? updatedProduct : product
+        ),
+      };
     default:
       return state;
   }

@@ -1,33 +1,47 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addProduct } from "../store/action";
-import { useHistory } from "react-router-dom";
-import { FormGroup, productForm } from "../styles";
+import { useDispatch, useSelector } from "react-redux";
+import { addProduct, updateProduct } from "../store/action";
+import { useHistory, useParams } from "react-router-dom";
+import { FormGroup } from "../styles";
 
 function ProductForm() {
   const dispatch = useDispatch();
   const history = useHistory();
-  const [product, setProduct] = useState({
-    name: "",
-    price: 0,
-    Description: "",
-    Image: "",
-  });
+
+  const { productSlug } = useParams();
+  const FonudProduct = useSelector((state) =>
+    state.products.find((product) => product.slug === productSlug)
+  );
+
+  const [product, setProduct] = useState(
+    FonudProduct ?? {
+      name: "",
+      price: 0,
+      description: "",
+      image: "",
+    }
+  );
 
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(product);
-    dispatch(addProduct(product));
+    FonudProduct
+      ? dispatch(updateProduct(product))
+      : dispatch(addProduct(product));
+
     history.push("/products");
   };
+
   const handleChange = (event) =>
     setProduct({ ...product, [event.target.name]: event.target.value });
 
   return (
     <FormGroup onSubmit={handleSubmit}>
       <div className="form-group row">
-        <label className="col-sm-2 col-form-label">Name</label>
+        <h1>{FonudProduct ? "Update" : "Add"} Product</h1>
+
         <div className="col-sm-10">
+          {/* <label className="col-sm-2 col-form-label">Name</label> */}
           <input
             type="text"
             value={product.name}
@@ -78,7 +92,7 @@ function ProductForm() {
         </div>
       </div>
       <button type="submit" className="btn btn-info float-right">
-        Add
+        {FonudProduct ? "Update" : "ADD"}
       </button>
     </FormGroup>
   );
